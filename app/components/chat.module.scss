@@ -287,12 +287,13 @@
   flex-direction: row-reverse;
 
   .chat-message-header {
+    margin-top: -15px;
     flex-direction: row-reverse;
   }
 }
 
 .chat-message-header {
-  margin-top: 20px;
+  margin-top: -15px;
   display: flex;
   align-items: center;
 

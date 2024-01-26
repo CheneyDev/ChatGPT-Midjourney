@@ -1091,73 +1091,6 @@ function _Chat() {
 
     return (
         <div className={styles.chat} key={session.id}>
-            <div className="window-header" data-tauri-drag-region>
-                {isMobileScreen && (
-                    <div className="window-actions">
-                        <div className={"window-action-button"}>
-                            <IconButton
-                                icon={<ReturnIcon/>}
-                                bordered
-                                title={Locale.Chat.Actions.ChatList}
-                                onClick={() => navigate(Path.Home)}
-                            />
-                        </div>
-                    </div>
-                )}
-
-                <div className={`window-header-title ${styles["chat-body-title"]}`}>
-                    <div
-                        className={`window-header-main-title ${styles["chat-body-main-title"]}`}
-                        onClickCapture={() => setIsEditingMessage(true)}
-                    >
-                        {!session.topic ? DEFAULT_TOPIC : session.topic}
-                    </div>
-                    <div className="window-header-sub-title">
-                        {Locale.Chat.SubTitle(session.messages.length)}
-                    </div>
-                </div>
-                <div className="window-actions">
-                    {!isMobileScreen && (
-                        <div className="window-action-button">
-                            <IconButton
-                                icon={<RenameIcon/>}
-                                bordered
-                                onClick={() => setIsEditingMessage(true)}
-                            />
-                        </div>
-                    )}
-                    <div className="window-action-button">
-                        <IconButton
-                            icon={<ExportIcon/>}
-                            bordered
-                            title={Locale.Chat.Actions.Export}
-                            onClick={() => {
-                                setShowExport(true);
-                            }}
-                        />
-                    </div>
-                    {showMaxIcon && (
-                        <div className="window-action-button">
-                            <IconButton
-                                icon={config.tightBorder ? <MinIcon/> : <MaxIcon/>}
-                                bordered
-                                onClick={() => {
-                                    config.update(
-                                        (config) => (config.tightBorder = !config.tightBorder),
-                                    );
-                                }}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                <PromptToast
-                    showToast={!hitBottom}
-                    showModal={showPromptModal}
-                    setShowModal={setShowPromptModal}
-                />
-            </div>
-
             <div
                 className={styles["chat-body"]}
                 ref={scrollRef}
@@ -1188,34 +1121,6 @@ function _Chat() {
                             >
                                 <div className={styles["chat-message-container"]}>
                                     <div className={styles["chat-message-header"]}>
-                                        <div className={styles["chat-message-avatar"]}>
-                                            <div className={styles["chat-message-edit"]}>
-                                                <IconButton
-                                                    icon={<EditIcon/>}
-                                                    onClick={async () => {
-                                                        const newMessage = await showPrompt(
-                                                            Locale.Chat.Actions.Edit,
-                                                            message.content,
-                                                            10,
-                                                        );
-                                                        chatStore.updateCurrentSession((session) => {
-                                                            const m = session.mask.context
-                                                                .concat(session.messages)
-                                                                .find((m) => m.id === message.id);
-                                                            if (m) {
-                                                                m.content = newMessage;
-                                                            }
-                                                        });
-                                                    }}
-                                                ></IconButton>
-                                            </div>
-                                            {isUser ? (
-                                                <Avatar avatar={config.avatar}/>
-                                            ) : (
-                                                <MaskAvatar mask={session.mask}/>
-                                            )}
-                                        </div>
-
                                         {showActions && (
                                             <div className={styles["chat-message-actions"]}>
                                                 <div className={styles["chat-input-actions"]}>
@@ -1311,11 +1216,6 @@ function _Chat() {
                                                 </div>
                                             </div>
                                         )}
-                                    <div className={styles["chat-message-action-date"]}>
-                                        {isContext
-                                            ? Locale.Chat.IsContext
-                                            : message.date.toLocaleString()}
-                                    </div>
                                 </div>
                             </div>
                             {shouldShowClearContextDivider && <ClearContextDivider/>}
